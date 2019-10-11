@@ -1,0 +1,23 @@
+#include <SoftwareSerial.h>
+
+#define gLedPin 13
+#define gRxPin 8
+#define gTxPin 9
+
+SoftwareSerial BTSerial(gRxPin, gTxPin);
+
+void setup() {
+  // 38400 - передача в bluetooth, 9600 - передача с монитора порта (с ПК)
+  BTSerial.begin(38400);
+  Serial.begin(9600);
+  delay(500);
+}
+
+void loop() {
+  if (BTSerial.available()) {
+    Serial.write(BTSerial.read());
+  }
+  if (Serial.available()) {
+    BTSerial.write(Serial.read());
+  }
+}
